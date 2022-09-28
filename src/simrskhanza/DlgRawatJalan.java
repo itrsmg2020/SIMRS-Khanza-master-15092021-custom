@@ -2565,7 +2565,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
             }
         });
         panelGlass12.add(BtnCari1);
-        BtnCari1.setBounds(790, 100, 130, 23);
+        BtnCari1.setBounds(790, 100, 120, 23);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Plan Therapy"));
