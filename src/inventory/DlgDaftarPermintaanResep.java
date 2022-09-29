@@ -2111,9 +2111,16 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                     }else if(NoRawat.equals("")){
                         JOptionPane.showMessageDialog(null,"Maaf, Silahkan pilih data resep dokter yang mau diserahkan..!!");
                     }else{
+                       int reply = JOptionPane.showConfirmDialog(rootPane,"Panggil Penyerahan Obat...???","Konfirmasi",JOptionPane.YES_NO_OPTION);
+                       if (reply == JOptionPane.YES_OPTION) {
                         Sequel.queryu("delete from antriapotek3");
                         Sequel.queryu("insert into antriapotek3 values('"+NoResep+"','1','"+NoRawat+"')");
                         Sequel.queryu("delete from bukti_penyerahan_resep_obat where no_resep='"+NoResep+"'");
+                        
+                        //Tambahan Custom
+                        Sequel.queryu("insert into bukti_penyerahan_resep_obat values('"+NoResep+"','Sudah Diterima')");
+                        Sequel.queryu("update resep_obat set tgl_penyerahan='"+NoResep+"',jam_penyerahan='"+NoResep+"' wher no_resep='"+NoResep+"'");
+                       }
                     }
                 }else{
                     JOptionPane.showMessageDialog(null,"Maaf, Anda tidak punya hak akses untuk mengvalidasi...!!!!");
