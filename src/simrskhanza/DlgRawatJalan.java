@@ -1138,7 +1138,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         isForm3(); 
         ChkInput3.setSelected(false);
         isForm4();
-        ChkAccor.setSelected(true);
+        ChkAccor.setSelected(false);
         isMenu(); 
         jam();
         
