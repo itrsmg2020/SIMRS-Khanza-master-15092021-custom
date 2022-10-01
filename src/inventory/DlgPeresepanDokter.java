@@ -78,6 +78,16 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         initComponents();
         this.setLocation(10,2);
         setSize(656,250);
+        
+        
+       //Tambahan Custom
+        try {
+            resepfarmasi = koneksiDB.RESEPFARMASI();
+        } catch (Exception e) {
+            System.out.println("E : "+e);
+            resepfarmasi="no";
+        }
+        
         tabModeResep=new DefaultTableModel(null,new Object[]{
                 "K","Jumlah","Kode Barang","Nama Barang","Satuan","Komposisi",
                 "Harga(Rp)","Jenis Obat","Aturan Pakai","I.F.","H.Beli","Stok"
@@ -109,11 +119,19 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         for (i = 0; i < 12; i++) {
             TableColumn column = tbResep.getColumnModel().getColumn(i);
             if(i==0){
-                column.setPreferredWidth(20);
+//                column.setPreferredWidth(20);
+                column.setMinWidth(0);
+                column.setMaxWidth(0);
             }else if(i==1){
                 column.setPreferredWidth(45);
             }else if(i==2){
-                column.setPreferredWidth(70);
+//                column.setPreferredWidth(70);
+                if(resepfarmasi.equals("yes")){
+                    column.setPreferredWidth(70);
+                }else{
+                    column.setMinWidth(0);
+                    column.setMaxWidth(0);
+                }  
             }else if(i==3){
                 column.setPreferredWidth(240);
             }else if(i==4){
@@ -123,16 +141,34 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
             }else if(i==6){
                 column.setPreferredWidth(85);
             }else if(i==7){
-                column.setPreferredWidth(110);
+//                column.setPreferredWidth(110);
+                if(resepfarmasi.equals("yes")){
+                    column.setPreferredWidth(110);
+                }else{
+                    column.setMinWidth(0);
+                    column.setMaxWidth(0);
+                }
             }else if(i==8){
                 column.setPreferredWidth(130);
             }else if(i==9){
-                column.setPreferredWidth(100);
+//                column.setPreferredWidth(100);
+                if(resepfarmasi.equals("yes")){
+                    column.setPreferredWidth(100);
+                }else{
+                    column.setMinWidth(0);
+                    column.setMaxWidth(0);
+                }
             }else if(i==10){
                 column.setMinWidth(0);
                 column.setMaxWidth(0);
             }else if(i==11){
-                column.setPreferredWidth(50);
+//                column.setPreferredWidth(50);
+                if(resepfarmasi.equals("yes")){
+                    column.setPreferredWidth(50);
+                }else{
+                    column.setMinWidth(0);
+                    column.setMaxWidth(0);
+                }
             }                 
         }
         warna.kolom=1;
@@ -374,12 +410,10 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         try {
             aktifkanbatch = koneksiDB.AKTIFKANBATCHOBAT();
             STOKKOSONGRESEP = koneksiDB.STOKKOSONGRESEP();
-            resepfarmasi = koneksiDB.RESEPFARMASI();
         } catch (Exception e) {
             System.out.println("E : "+e);
             aktifkanbatch = "no";
             STOKKOSONGRESEP="no";
-            resepfarmasi="no";
         }
         
         try {
