@@ -45,16 +45,16 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
     private DlgCariPoli poli=new DlgCariPoli(null,false);
     private DlgCariBangsal ruang=new DlgCariBangsal(null,false);
     private int i,nilai_detik,permintaanbaru=0;
-    private PreparedStatement ps,ps2;
+    private PreparedStatement ps,ps2,ps3;
     private final Properties prop = new Properties();
     private BackgroundMusic music;
-    private ResultSet rs,rs2;
+    private ResultSet rs,rs2,rs3;
     private Date now;
     private ApiCareStream carestream=new ApiCareStream();
     private boolean aktif=false,semua;
     private String alarm="",formalarm="",nol_detik,detik,tglsampel="",tglhasil="",norm="",kamar="",namakamar="",
             NoPermintaan="",NoRawat="",Pasien="",Permintaan="",JamPermintaan="",Sampel="",JamSampel="",Hasil="",JamHasil="",KodeDokter="",DokterPerujuk="",Ruang="",
-            InformasiTambahan="",Klinis="",finger="";
+            InformasiTambahan="",Klinis="",finger="",tindakanrad="",nik="",nm_pasien="",alamat="",tgl_lahir="";
     
     /** Creates new form DlgProgramStudi
      * @param parent
@@ -375,6 +375,10 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
         BtnSimpan4 = new widget.Button();
         jLabel26 = new widget.Label();
         TanggalPulang = new widget.Tanggal();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        BtnCetakLabelRad = new javax.swing.JMenuItem();
+        jPopupMenu2 = new javax.swing.JPopupMenu();
+        BtnCetakLabelRad1 = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         jPanel2 = new javax.swing.JPanel();
         panelGlass8 = new widget.panelisi();
@@ -473,7 +477,7 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
         internalFrame5.add(jLabel26);
         jLabel26.setBounds(6, 32, 100, 23);
 
-        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "16-02-2022 09:27:14" }));
+        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "05-03-2022 23:32:38" }));
         TanggalPulang.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TanggalPulang.setName("TanggalPulang"); // NOI18N
         TanggalPulang.setOpaque(false);
@@ -482,6 +486,42 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
         TanggalPulang.setBounds(110, 32, 150, 23);
 
         WindowAmbilSampel.getContentPane().add(internalFrame5, java.awt.BorderLayout.CENTER);
+
+        jPopupMenu1.setName("jPopupMenu1"); // NOI18N
+
+        BtnCetakLabelRad.setBackground(new java.awt.Color(255, 255, 254));
+        BtnCetakLabelRad.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnCetakLabelRad.setForeground(new java.awt.Color(50, 50, 50));
+        BtnCetakLabelRad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        BtnCetakLabelRad.setText("Cetak Label");
+        BtnCetakLabelRad.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnCetakLabelRad.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        BtnCetakLabelRad.setName("BtnCetakLabelRad"); // NOI18N
+        BtnCetakLabelRad.setPreferredSize(new java.awt.Dimension(200, 26));
+        BtnCetakLabelRad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCetakLabelRadActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(BtnCetakLabelRad);
+
+        jPopupMenu2.setName("jPopupMenu2"); // NOI18N
+
+        BtnCetakLabelRad1.setBackground(new java.awt.Color(255, 255, 254));
+        BtnCetakLabelRad1.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnCetakLabelRad1.setForeground(new java.awt.Color(50, 50, 50));
+        BtnCetakLabelRad1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        BtnCetakLabelRad1.setText("Cetak Label");
+        BtnCetakLabelRad1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnCetakLabelRad1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        BtnCetakLabelRad1.setName("BtnCetakLabelRad1"); // NOI18N
+        BtnCetakLabelRad1.setPreferredSize(new java.awt.Dimension(200, 26));
+        BtnCetakLabelRad1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCetakLabelRad1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu2.add(BtnCetakLabelRad1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -703,7 +743,6 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
 
         TabPilihRawat.setBackground(new java.awt.Color(255, 255, 254));
         TabPilihRawat.setForeground(new java.awt.Color(50, 50, 50));
-        TabPilihRawat.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         TabPilihRawat.setName("TabPilihRawat"); // NOI18N
         TabPilihRawat.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -768,7 +807,6 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
 
         TabRawatJalan.setBackground(new java.awt.Color(255, 255, 254));
         TabRawatJalan.setForeground(new java.awt.Color(50, 50, 50));
-        TabRawatJalan.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         TabRawatJalan.setName("TabRawatJalan"); // NOI18N
         TabRawatJalan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -897,7 +935,6 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
 
         TabRawatInap.setBackground(new java.awt.Color(255, 255, 254));
         TabRawatInap.setForeground(new java.awt.Color(50, 50, 50));
-        TabRawatInap.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         TabRawatInap.setName("TabRawatInap"); // NOI18N
         TabRawatInap.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -2257,6 +2294,114 @@ private void tbRadiologiRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRS
         }
     }//GEN-LAST:event_BtnAmbilDataFUJI1ActionPerformed
 
+    private void BtnCetakLabelRadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCetakLabelRadActionPerformed
+        if(tbRadiologiRalan.getSelectedRow()<= -1){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan pilih data..!!");
+        }else{
+            try{
+                ps3=koneksi.prepareStatement(
+                    "select jns_perawatan_radiologi.nm_perawatan "
+                    + "from permintaan_pemeriksaan_radiologi "
+                    + "inner join jns_perawatan_radiologi on jns_perawatan_radiologi.kd_jenis_prw = permintaan_pemeriksaan_radiologi.kd_jenis_prw "
+                    + "where permintaan_pemeriksaan_radiologi.noorder = ?");
+                try{
+                    ps3.setString(1, tbRadiologiRalan.getValueAt(tbRadiologiRalan.getSelectedRow(),0).toString());
+                    rs3=ps3.executeQuery();
+                    tindakanrad="";
+                    while(rs3.next()){
+                        tindakanrad += rs3.getString("nm_perawatan")+", ";
+                    }
+                    tindakanrad = tindakanrad.replaceAll(", $", "");
+                } catch (Exception e) {
+                    System.out.println("Notif Hasil Label Rad = "+e);
+                } finally{
+                    if(rs3!=null){
+                        rs3.close();
+                    }
+                    if(ps3!=null){
+                        ps3.close();
+                    }
+                }
+            }catch(Exception e){
+                System.out.println("Notif Rad= "+e);
+            }
+
+            Map<String, Object> param = new HashMap<>();
+            param.put("pemeriksaan",tindakanrad);
+            param.put("tgl_pemeriksaan",tbRadiologiRalan.getValueAt(tbRadiologiRalan.getSelectedRow(),3).toString());
+            param.put("norawat",tbRadiologiRalan.getValueAt(tbRadiologiRalan.getSelectedRow(),1).toString());
+            norm=Sequel.cariIsi("select no_rkm_medis from reg_periksa where no_rawat=? ",tbRadiologiRalan.getValueAt(tbRadiologiRalan.getSelectedRow(),1).toString());
+            param.put("norm",norm);
+            nik=Sequel.cariIsi("select no_ktp from pasien where no_rkm_medis=?",norm);
+            param.put("nik",nik);
+            nm_pasien=Sequel.cariIsi("select nm_pasien from pasien where no_rkm_medis=?",norm);
+            param.put("nm_pasien",nm_pasien);
+            alamat=Sequel.cariIsi("select alamat from pasien where no_rkm_medis=?",norm);
+            param.put("alamat",alamat);
+            tgl_lahir=Sequel.cariIsi("select tgl_lahir from pasien where no_rkm_medis =?",norm);
+            param.put("tgl_lahir",tgl_lahir);
+            param.put("dokter_perujuk",tbRadiologiRalan.getValueAt(tbRadiologiRalan.getSelectedRow(),10).toString());
+            param.put("noorder",NoPermintaan);
+
+            Valid.MyReport("rptLabelPemeriksaanRad.jasper",param,"::[ Lembar Label Pemeriksaan Radiologi]::");
+        }
+        this.setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_BtnCetakLabelRadActionPerformed
+
+    private void BtnCetakLabelRad1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCetakLabelRad1ActionPerformed
+        if(tbRadiologiRanap.getSelectedRow()<= -1){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan pilih data..!!");
+        }else{
+            try{
+                ps3=koneksi.prepareStatement(
+                    "select jns_perawatan_radiologi.nm_perawatan "
+                    + "from permintaan_pemeriksaan_radiologi "
+                    + "inner join jns_perawatan_radiologi on jns_perawatan_radiologi.kd_jenis_prw = permintaan_pemeriksaan_radiologi.kd_jenis_prw "
+                    + "where permintaan_pemeriksaan_radiologi.noorder = ?");
+                try{
+                    ps3.setString(1, tbRadiologiRanap.getValueAt(tbRadiologiRanap.getSelectedRow(),0).toString());
+                    rs3=ps3.executeQuery();
+                    tindakanrad="";
+                    while(rs3.next()){
+                        tindakanrad += rs3.getString("nm_perawatan")+", ";
+                    }
+                    tindakanrad = tindakanrad.replaceAll(", $", "");
+                } catch (Exception e) {
+                    System.out.println("Notif Hasil Label Rad = "+e);
+                } finally{
+                    if(rs3!=null){
+                        rs3.close();
+                    }
+                    if(ps3!=null){
+                        ps3.close();
+                    }
+                }
+            }catch(Exception e){
+                System.out.println("Notif Rad= "+e);
+            }
+
+            Map<String, Object> param = new HashMap<>();
+            param.put("pemeriksaan",tindakanrad);
+            param.put("tgl_pemeriksaan",tbRadiologiRanap.getValueAt(tbRadiologiRanap.getSelectedRow(),3).toString());
+            param.put("norawat",tbRadiologiRanap.getValueAt(tbRadiologiRanap.getSelectedRow(),1).toString());
+            norm=Sequel.cariIsi("select no_rkm_medis from reg_periksa where no_rawat=? ",tbRadiologiRanap.getValueAt(tbRadiologiRanap.getSelectedRow(),1).toString());
+            param.put("norm",norm);
+            nik=Sequel.cariIsi("select no_ktp from pasien where no_rkm_medis=?",norm);
+            param.put("nik",nik);
+            nm_pasien=Sequel.cariIsi("select nm_pasien from pasien where no_rkm_medis=?",norm);
+            param.put("nm_pasien",nm_pasien);
+            alamat=Sequel.cariIsi("select alamat from pasien where no_rkm_medis=?",norm);
+            param.put("alamat",alamat);
+            tgl_lahir=Sequel.cariIsi("select tgl_lahir from pasien where no_rkm_medis =?",norm);
+            param.put("tgl_lahir",tgl_lahir);
+            param.put("dokter_perujuk",tbRadiologiRanap.getValueAt(tbRadiologiRanap.getSelectedRow(),10).toString());
+            param.put("noorder",NoPermintaan);
+
+            Valid.MyReport("rptLabelPemeriksaanRad.jasper",param,"::[ Lembar Label Pemeriksaan Radiologi]::");
+        }
+        this.setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_BtnCetakLabelRad1ActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -2281,6 +2426,8 @@ private void tbRadiologiRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRS
     private widget.Button BtnBarcodePermintaan2;
     private widget.Button BtnCari;
     private widget.Button BtnCetakHasilRadiologi;
+    private javax.swing.JMenuItem BtnCetakLabelRad;
+    private javax.swing.JMenuItem BtnCetakLabelRad1;
     private widget.Button BtnCloseIn4;
     private widget.Button BtnHapus;
     private widget.Button BtnHasil;
@@ -2322,6 +2469,8 @@ private void tbRadiologiRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRS
     private widget.Label jLabel17;
     private widget.Label jLabel26;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenu2;
     private widget.Label label10;
     private widget.Label label11;
     private widget.Label label18;
