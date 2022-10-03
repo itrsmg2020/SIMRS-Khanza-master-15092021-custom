@@ -16,6 +16,7 @@ import bridging.BPJSCekSuplesiJasaRaharja;
 import rekammedis.RMRiwayatPerawatan;
 import permintaan.DlgBookingOperasi;
 import inventory.DlgResepObat;
+import inventory.DlgTemplateResepRSMG;
 import laporan.DlgDataHAIs;
 import bridging.BPJSDataSEP;
 import bridging.BPJSNik;
@@ -765,6 +766,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         MnResepPulang = new javax.swing.JMenuItem();
         MnReturJual = new javax.swing.JMenuItem();
         MnPenjualan1 = new javax.swing.JMenuItem();
+        MnTemplateResep = new javax.swing.JMenuItem();
         MnDeposit = new javax.swing.JMenuItem();
         MnBilling = new javax.swing.JMenuItem();
         jSeparator12 = new javax.swing.JPopupMenu.Separator();
@@ -2056,6 +2058,22 @@ public class DlgKamarInap extends javax.swing.JDialog {
             }
         });
         MnObat.add(MnPenjualan1);
+
+        MnTemplateResep.setBackground(new java.awt.Color(255, 255, 254));
+        MnTemplateResep.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnTemplateResep.setForeground(new java.awt.Color(50, 50, 50));
+        MnTemplateResep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnTemplateResep.setText("Template Resep");
+        MnTemplateResep.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        MnTemplateResep.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MnTemplateResep.setName("MnTemplateResep"); // NOI18N
+        MnTemplateResep.setPreferredSize(new java.awt.Dimension(200, 26));
+        MnTemplateResep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnTemplateResepActionPerformed(evt);
+            }
+        });
+        MnObat.add(MnTemplateResep);
 
         jPopupMenu1.add(MnObat);
 
@@ -4520,7 +4538,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         R2.setPreferredSize(new java.awt.Dimension(90, 23));
         panelCari.add(R2);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-09-2022" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "08-09-2022" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -4543,7 +4561,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel22.setPreferredSize(new java.awt.Dimension(25, 23));
         panelCari.add(jLabel22);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-09-2022" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "08-09-2022" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -4569,7 +4587,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         R3.setPreferredSize(new java.awt.Dimension(75, 23));
         panelCari.add(R3);
 
-        DTPCari3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-09-2022" }));
+        DTPCari3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "08-09-2022" }));
         DTPCari3.setDisplayFormat("dd-MM-yyyy");
         DTPCari3.setName("DTPCari3"); // NOI18N
         DTPCari3.setOpaque(false);
@@ -4592,7 +4610,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel25.setPreferredSize(new java.awt.Dimension(25, 23));
         panelCari.add(jLabel25);
 
-        DTPCari4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-09-2022" }));
+        DTPCari4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "08-09-2022" }));
         DTPCari4.setDisplayFormat("dd-MM-yyyy");
         DTPCari4.setName("DTPCari4"); // NOI18N
         DTPCari4.setOpaque(false);
@@ -11939,6 +11957,22 @@ private void MnRujukMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         }
     }//GEN-LAST:event_MnPemantauanPEWSActionPerformed
 
+    private void MnTemplateResepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnTemplateResepActionPerformed
+        // TODO add your handling code here:
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        String kd_dokter=Sequel.cariIsi("select reg_periksa.kd_dokter from reg_periksa where reg_periksa.no_rawat=?",TNoRwCari.getText());
+        String kd_pj=Sequel.cariIsi("select reg_periksa.kd_pj from reg_periksa where reg_periksa.no_rawat=?",TNoRwCari.getText());
+
+        DlgTemplateResepRSMG daftar=new DlgTemplateResepRSMG(null,false);
+        daftar.isCek();
+        daftar.setRM(TNoRwCari.getText(),TNoRMCari.getText(),kd_dokter,kd_pj,"ranap",TPasienCari.getText());
+        daftar.tampil();
+        daftar.setSize(internalFrame1.getWidth(),internalFrame1.getHeight());
+        daftar.setLocationRelativeTo(internalFrame1);
+        daftar.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_MnTemplateResepActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -12108,6 +12142,7 @@ private void MnRujukMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JMenuItem MnSuratJaminanPelayanan;
     private javax.swing.JMenuItem MnSuratKeteranganRawatInap;
     private javax.swing.JMenuItem MnSuratKontrol;
+    private javax.swing.JMenuItem MnTemplateResep;
     private javax.swing.JMenuItem MnTeridentifikasiTB;
     private javax.swing.JMenuItem MnTilikBedah;
     private javax.swing.JMenu MnTindakan;
