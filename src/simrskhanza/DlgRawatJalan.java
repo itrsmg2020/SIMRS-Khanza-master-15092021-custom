@@ -2734,7 +2734,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
 
         ChkAccor1.setBackground(new java.awt.Color(255, 250, 248));
         ChkAccor1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(250, 255, 248)));
-        ChkAccor1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/kanan.png"))); // NOI18N
+        ChkAccor1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/kiri.png"))); // NOI18N
         ChkAccor1.setFocusable(false);
         ChkAccor1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ChkAccor1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -8527,7 +8527,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private void isMenu1(){
         if(ChkAccor1.isSelected()==true){
             ChkAccor1.setVisible(false);
-            PanelAccor1.setPreferredSize(new Dimension(205,HEIGHT));
+            PanelAccor1.setPreferredSize(new Dimension(275,HEIGHT));
             FormMenu1.setVisible(true);  
             ChkAccor1.setVisible(true);
         }else if(ChkAccor1.isSelected()==false){
@@ -9668,10 +9668,17 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
                 tampilkanPenangananDokterPetugas();
                 break;
             case 3:
-                tampilPemeriksaan();
-                tampilSoapi();
-                tampilPerawatan();
-                break;
+                switch(TabRiwayat.getSelectedIndex()){
+                    case 0:
+                        tampilPemeriksaan();
+                        break;
+                    case 1:
+                        tampilSoapi();
+                        break;
+                    case 2:
+                        tampilPerawatan();
+                        break;
+                }
             case 4:
                 tampilPemeriksaanObstetri();
                 break;
