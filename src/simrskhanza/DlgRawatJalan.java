@@ -1386,6 +1386,9 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         BtnResepObat1 = new widget.Button();
         BtnCopyResep1 = new widget.Button();
         BtnDaftarResep1 = new widget.Button();
+        jPanel2 = new javax.swing.JPanel();
+        BtnPermintaanLab1 = new widget.Button();
+        BtnPermintaanRad1 = new widget.Button();
         TabRiwayat = new javax.swing.JTabbedPane();
         Scroll3 = new widget.ScrollPane();
         tbPemeriksaan = new widget.Table();
@@ -2668,6 +2671,48 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         panelGlass12.add(jPanel1);
         jPanel1.setBounds(940, 10, 200, 110);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Plan Diagnosis"));
+        jPanel2.setToolTipText("");
+        jPanel2.setName("jPanel2"); // NOI18N
+
+        BtnPermintaanLab1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
+        BtnPermintaanLab1.setText("Permintaan Lab");
+        BtnPermintaanLab1.setFocusPainted(false);
+        BtnPermintaanLab1.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnPermintaanLab1.setGlassColor(new java.awt.Color(255, 255, 255));
+        BtnPermintaanLab1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnPermintaanLab1.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        BtnPermintaanLab1.setName("BtnPermintaanLab1"); // NOI18N
+        BtnPermintaanLab1.setPreferredSize(new java.awt.Dimension(180, 23));
+        BtnPermintaanLab1.setRoundRect(false);
+        BtnPermintaanLab1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnPermintaanLab1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(BtnPermintaanLab1);
+
+        BtnPermintaanRad1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
+        BtnPermintaanRad1.setText("Permintaan Rad");
+        BtnPermintaanRad1.setFocusPainted(false);
+        BtnPermintaanRad1.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnPermintaanRad1.setGlassColor(new java.awt.Color(255, 255, 255));
+        BtnPermintaanRad1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnPermintaanRad1.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        BtnPermintaanRad1.setName("BtnPermintaanRad1"); // NOI18N
+        BtnPermintaanRad1.setPreferredSize(new java.awt.Dimension(180, 23));
+        BtnPermintaanRad1.setRoundRect(false);
+        BtnPermintaanRad1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnPermintaanRad1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(BtnPermintaanRad1);
+
+        panelGlass12.add(jPanel2);
+        jPanel2.setBounds(940, 130, 200, 80);
+
         PanelInput.add(panelGlass12, java.awt.BorderLayout.CENTER);
 
         internalFrame5.add(PanelInput, java.awt.BorderLayout.PAGE_START);
@@ -2734,7 +2779,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
 
         ChkAccor1.setBackground(new java.awt.Color(255, 250, 248));
         ChkAccor1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(250, 255, 248)));
-        ChkAccor1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/kiri.png"))); // NOI18N
+        ChkAccor1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/kanan.png"))); // NOI18N
         ChkAccor1.setFocusable(false);
         ChkAccor1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ChkAccor1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -7804,6 +7849,48 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         BtnCariActionPerformed(null);
     }//GEN-LAST:event_TabRiwayatMouseClicked
 
+    private void BtnPermintaanLab1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPermintaanLab1ActionPerformed
+        if(TPasien.getText().trim().equals("")||TNoRw.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
+            TCari.requestFocus();
+        }else{      
+            if(Sequel.cariInteger("select count(kamar_inap.no_rawat) from kamar_inap where kamar_inap.no_rawat=?",TNoRw.getText())>0){
+                JOptionPane.showMessageDialog(null,"Maaf, Pasien sudah masuk Kamar Inap. Gunakan billing Ranap..!!!");
+            }else {
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                DlgPermintaanLaboratorium dlgro=new DlgPermintaanLaboratorium(null,false);
+                dlgro.setSize(internalFrame1.getWidth(),internalFrame1.getHeight());
+                dlgro.setLocationRelativeTo(internalFrame1);
+                dlgro.emptTeks();
+                dlgro.isCek();
+                dlgro.setNoRm(TNoRw.getText(),"Ralan");
+                dlgro.setVisible(true);
+                this.setCursor(Cursor.getDefaultCursor());  
+            }          
+        }
+    }//GEN-LAST:event_BtnPermintaanLab1ActionPerformed
+
+    private void BtnPermintaanRad1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPermintaanRad1ActionPerformed
+        if(TPasien.getText().trim().equals("")||TNoRw.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
+            TCari.requestFocus();
+        }else{   
+            if(Sequel.cariInteger("select count(kamar_inap.no_rawat) from kamar_inap where kamar_inap.no_rawat=?",TNoRw.getText())>0){
+                JOptionPane.showMessageDialog(null,"Maaf, Pasien sudah masuk Kamar Inap. Gunakan billing Ranap..!!!");
+            }else {
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                DlgPermintaanRadiologi dlgro=new DlgPermintaanRadiologi(null,false);
+                dlgro.setSize(internalFrame1.getWidth(),internalFrame1.getHeight());
+                dlgro.setLocationRelativeTo(internalFrame1);
+                dlgro.emptTeks();
+                dlgro.isCek();
+                dlgro.setNoRm(TNoRw.getText(),"Ralan");
+                dlgro.setVisible(true);
+                this.setCursor(Cursor.getDefaultCursor());
+            }            
+        }
+    }//GEN-LAST:event_BtnPermintaanRad1ActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -7860,7 +7947,9 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private widget.Button BtnPemantauanPEWSAnak;
     private widget.Button BtnPenilaianPsikolog;
     private widget.Button BtnPermintaanLab;
+    private widget.Button BtnPermintaanLab1;
     private widget.Button BtnPermintaanRad;
+    private widget.Button BtnPermintaanRad1;
     private widget.Button BtnPrint;
     private widget.Button BtnResepLuar;
     private widget.Button BtnResepObat;
@@ -8138,6 +8227,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private widget.Label jLabel83;
     private widget.Label jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator5;
     private widget.TextBox kdptg;
