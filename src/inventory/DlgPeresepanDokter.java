@@ -79,7 +79,6 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         this.setLocation(10,2);
         setSize(656,250);
         
-        
        //Tambahan Custom
         try {
             resepfarmasi = koneksiDB.RESEPFARMASI();
@@ -785,7 +784,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         jLabel8.setBounds(0, 42, 72, 23);
 
         DTPBeri.setForeground(new java.awt.Color(50, 70, 50));
-        DTPBeri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "25-08-2022" }));
+        DTPBeri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "03-10-2022" }));
         DTPBeri.setDisplayFormat("dd-MM-yyyy");
         DTPBeri.setName("DTPBeri"); // NOI18N
         DTPBeri.setOpaque(false);
@@ -890,6 +889,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         FormInput.add(LTotalTagihan);
         LTotalTagihan.setBounds(588, 42, 95, 23);
 
+        NmResep.setEditable(false);
         NmResep.setHighlighter(null);
         NmResep.setName("NmResep"); // NOI18N
         NmResep.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -901,7 +901,6 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         NmResep.setBounds(795, 72, 200, 23);
 
         ChkNMResep.setBorder(null);
-        ChkNMResep.setSelected(true);
         ChkNMResep.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         ChkNMResep.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ChkNMResep.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -912,7 +911,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
             }
         });
         FormInput.add(ChkNMResep);
-        ChkNMResep.setBounds(1000, 70, 23, 23);
+        ChkNMResep.setBounds(995, 72, 23, 23);
 
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel12.setText("Nama Resep : ");
@@ -1301,6 +1300,10 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                     }              
                 }
                 
+                if(sukses == true){
+                    cetakEresep();
+                }
+                
                 Sequel.AutoComitTrue();
                 ChkJln.setSelected(true);
             }                
@@ -1568,7 +1571,15 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     }//GEN-LAST:event_NmResepKeyPressed
 
     private void ChkNMResepItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ChkNMResepItemStateChanged
-        // TODO add your handling code here:
+        if(ChkNMResep.isSelected()==true){
+            NmResep.setEditable(true);
+            NmResep.setBackground(new Color(250,255,245));
+            NmResep.setText("");
+        }else if(ChkNMResep.isSelected()==false){
+            NmResep.setEditable(false);
+            NmResep.setBackground(new Color(245,250,240));
+            NmResep.setText("");
+        }
     }//GEN-LAST:event_ChkNMResepItemStateChanged
 
     /**
