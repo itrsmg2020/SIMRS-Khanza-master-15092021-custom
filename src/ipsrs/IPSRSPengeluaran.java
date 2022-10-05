@@ -22,6 +22,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import keuangan.Jurnal;
+import simrskhanza.DlgBangsalIPSRS;
 
 public class IPSRSPengeluaran extends javax.swing.JDialog {
     private final DefaultTableModel tabMode;
@@ -40,6 +41,9 @@ public class IPSRSPengeluaran extends javax.swing.JDialog {
     private WarnaTable2 warna=new WarnaTable2();
     public boolean tampilkanpermintaan=true;
     private boolean sukses=true;
+    public DlgBangsalIPSRS bangsal=new DlgBangsalIPSRS(null,false);
+    private int pilihan=0;
+    private String keterangan="";
 
     /** Creates new form DlgProgramStudi
      * @param parent
@@ -94,7 +98,6 @@ public class IPSRSPengeluaran extends javax.swing.JDialog {
         tbDokter.setDefaultRenderer(Object.class,warna);
 
         NoKeluar.setDocument(new batasInput((byte)15).getKata(NoKeluar));
-        Keterangan.setDocument(new batasInput((byte)100).getKata(Keterangan));
         kdptg.setDocument(new batasInput((byte)25).getKata(kdptg));        
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
         if(koneksiDB.CARICEPAT().equals("aktif")){
@@ -162,7 +165,33 @@ public class IPSRSPengeluaran extends javax.swing.JDialog {
             public void windowActivated(WindowEvent e) {}
             @Override
             public void windowDeactivated(WindowEvent e) {}
-        });        
+        });      
+        
+        bangsal.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(akses.getform().equals("DlgBangsalIPSRS")){
+                    load();
+                    if(bangsal.getTable().getSelectedRow()!= -1){                   
+                       KdRuangan.setText(bangsal.getTable().getValueAt(bangsal.getTable().getSelectedRow(),1).toString());
+                       NmRuangan.setText(bangsal.getTable().getValueAt(bangsal.getTable().getSelectedRow(),2).toString());
+                       KdRuangan.requestFocus();  
+                    }                 
+                }
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
                   
     }
 
@@ -201,7 +230,9 @@ public class IPSRSPengeluaran extends javax.swing.JDialog {
         nmptg = new widget.TextBox();
         btnPetugas = new widget.Button();
         label16 = new widget.Label();
-        Keterangan = new widget.TextBox();
+        KdRuangan = new widget.TextBox();
+        NmRuangan = new widget.TextBox();
+        btnKamar = new widget.Button();
 
         Kd2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         Kd2.setName("Kd2"); // NOI18N
@@ -466,15 +497,42 @@ public class IPSRSPengeluaran extends javax.swing.JDialog {
         panelisi3.add(label16);
         label16.setBounds(220, 10, 100, 23);
 
-        Keterangan.setName("Keterangan"); // NOI18N
-        Keterangan.setPreferredSize(new java.awt.Dimension(207, 23));
-        Keterangan.addKeyListener(new java.awt.event.KeyAdapter() {
+        KdRuangan.setHighlighter(null);
+        KdRuangan.setName("KdRuangan"); // NOI18N
+        KdRuangan.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                KeteranganKeyPressed(evt);
+                KdRuanganKeyPressed(evt);
             }
         });
-        panelisi3.add(Keterangan);
-        Keterangan.setBounds(324, 10, 438, 23);
+        panelisi3.add(KdRuangan);
+        KdRuangan.setBounds(325, 10, 70, 23);
+
+        NmRuangan.setEditable(false);
+        NmRuangan.setName("NmRuangan"); // NOI18N
+        NmRuangan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                NmRuanganKeyPressed(evt);
+            }
+        });
+        panelisi3.add(NmRuangan);
+        NmRuangan.setBounds(397, 10, 230, 23);
+
+        btnKamar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
+        btnKamar.setMnemonic('1');
+        btnKamar.setToolTipText("Alt+1");
+        btnKamar.setName("btnKamar"); // NOI18N
+        btnKamar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKamarActionPerformed(evt);
+            }
+        });
+        btnKamar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnKamarKeyPressed(evt);
+            }
+        });
+        panelisi3.add(btnKamar);
+        btnKamar.setBounds(630, 10, 28, 23);
 
         internalFrame1.add(panelisi3, java.awt.BorderLayout.PAGE_START);
 
@@ -512,8 +570,8 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
     private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimpanActionPerformed
         if(NoKeluar.getText().trim().equals("")){
             Valid.textKosong(NoKeluar,"No.Faktur");
-        }else if(Keterangan.getText().trim().equals("")){
-            Valid.textKosong(Keterangan,"Keterangan");
+        }else if(NmRuangan.getText().trim().equals("")){
+            Valid.textKosong(NmRuangan,"Keterangan");
         }else if(nmptg.getText().trim().equals("")){
             Valid.textKosong(kdptg,"Petugas");
         }else if(tbDokter.getRowCount()==0){
@@ -527,7 +585,8 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
             if (reply == JOptionPane.YES_OPTION) {
                 Sequel.AutoComitFalse();
                 sukses=true;
-                if(Sequel.menyimpantf2("ipsrspengeluaran","?,?,?,?","No.Keluar",4,new String[]{NoKeluar.getText(),Valid.SetTgl(TglKeluar.getSelectedItem()+""),kdptg.getText(),Keterangan.getText()})==true){
+                keterangan = KdRuangan.getText() +" - "+ NmRuangan.getText();
+                if(Sequel.menyimpantf2("ipsrspengeluaran","?,?,?,?","No.Keluar",4,new String[]{NoKeluar.getText(),Valid.SetTgl(TglKeluar.getSelectedItem()+""),kdptg.getText(),keterangan})==true){
                     jml=tbDokter.getRowCount();
                     for(i=0;i<jml;i++){  
                          if(Valid.SetAngka(tbDokter.getValueAt(i,0).toString())>0){
@@ -641,11 +700,11 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
 }//GEN-LAST:event_tbDokterKeyPressed
 
 private void NoKeluarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NoKeluarKeyPressed
-        Valid.pindah(evt, BtnSimpan, Keterangan);
+        Valid.pindah(evt, BtnSimpan, NmRuangan);
 }//GEN-LAST:event_NoKeluarKeyPressed
 
 private void TglKeluarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TglKeluarKeyPressed
-        Valid.pindah(evt,Keterangan,kdptg);
+        Valid.pindah(evt,NmRuangan,kdptg);
 }//GEN-LAST:event_TglKeluarKeyPressed
 
 private void kdptgKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_kdptgKeyPressed
@@ -678,10 +737,6 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         }            
     }//GEN-LAST:event_formWindowOpened
 
-    private void KeteranganKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KeteranganKeyPressed
-        Valid.pindah(evt, NoKeluar,TglKeluar);
-    }//GEN-LAST:event_KeteranganKeyPressed
-
     private void BtnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTambahActionPerformed
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         akses.setform("DlgPembelianIPSRS");
@@ -708,6 +763,28 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         }
     }//GEN-LAST:event_tbDokterPropertyChange
 
+    private void KdRuanganKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KdRuanganKeyPressed
+
+    }//GEN-LAST:event_KdRuanganKeyPressed
+
+    private void NmRuanganKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NmRuanganKeyPressed
+
+    }//GEN-LAST:event_NmRuanganKeyPressed
+
+    private void btnKamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKamarActionPerformed
+        akses.setform("DlgBangsalIPSRS");
+        pilihan=1;
+        bangsal.isCek();
+        bangsal.emptTeks();
+        bangsal.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+        bangsal.setLocationRelativeTo(internalFrame1);
+        bangsal.setVisible(true);
+    }//GEN-LAST:event_btnKamarActionPerformed
+
+    private void btnKamarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnKamarKeyPressed
+        Valid.pindah(evt,KdRuangan,BtnSimpan);
+    }//GEN-LAST:event_btnKamarKeyPressed
+
     /**
     * @param args the command line arguments
     */
@@ -731,12 +808,14 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private widget.Button BtnSimpan;
     private widget.Button BtnTambah;
     private widget.TextBox Kd2;
-    private widget.TextBox Keterangan;
+    private widget.TextBox KdRuangan;
     private widget.Label LTotal;
+    private widget.TextBox NmRuangan;
     private widget.TextBox NoKeluar;
     private javax.swing.JPopupMenu Popup;
     private widget.TextBox TCari;
     private widget.Tanggal TglKeluar;
+    private widget.Button btnKamar;
     private widget.Button btnPetugas;
     private widget.InternalFrame internalFrame1;
     private widget.TextBox kdptg;
@@ -859,7 +938,7 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     public void tampil(String nopermintaan,String keterangan) {
         Valid.tabelKosong(tabMode);        
         try{
-            Keterangan.setText(keterangan);
+            //Keterangan.setText(keterangan);
             ps=koneksi.prepareStatement("select ipsrsbarang.kode_brng, concat(ipsrsbarang.nama_brng,' (',ipsrsbarang.jenis,')'),"+
                     " ipsrsbarang.kode_sat,stok, ipsrsbarang.harga,detail_permintaan_non_medis.jumlah "+
                     " from ipsrsbarang inner join detail_permintaan_non_medis "+
@@ -925,4 +1004,9 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         }
         LTotal.setText(Valid.SetAngka(ttl));
     }
+    
+    public void load() {
+        KdRuangan.setText("");
+        NmRuangan.setText("");
+    }  
 }
